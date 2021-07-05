@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const Comment = require('./model/Comments');
 require('dotenv').config();
@@ -8,7 +9,9 @@ const app = express();
 //Middlewares
 app.use(bodyParser.urlencoded({
     extended: true
-  }));
+}));
+  
+app.use(cors());
 
 
 app.get('/', (req, res) => {
@@ -66,4 +69,4 @@ mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true , useUnified
     .catch((error) => console.log(`${error} : did not connect`));
 
 
-app.listen(3000 , () => console.log("Listening on 3000"))
+app.listen(9000 , () => console.log("Listening on 9000"))
