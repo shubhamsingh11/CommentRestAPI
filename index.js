@@ -16,7 +16,10 @@ app.get('/', (req, res) => {
 })
 
 app.get('/comments', (req, res) => {
-    res.send("Hi There Comments");
+    const Comments = Comment.find()
+        .then(data => res.json(data))
+        .catch(err => console.error(err));
+
 })
 
 app.post('/comments', (req, res) => {
@@ -24,7 +27,7 @@ app.post('/comments', (req, res) => {
         name: req.body.name,
         comment: req.body.comment
     });
-    // res.send(comment)
+
     comment.save()
         .then(data => {
             res.json(data);
@@ -33,6 +36,30 @@ app.post('/comments', (req, res) => {
             res.send(err.message)
         })
 })
+
+app.patch('/comments/:id', async (req, res) => {
+    const ThatComment = await Comment.updateOne(
+        { _id: req.params.id },
+        { $set: { name: "Shubham S" } });
+    
+    try {
+        res.json(ThatComment);  
+    }
+    catch {
+        res.send(err.message)
+    }
+})
+
+app.delete('/comments/:id', async (req, res) => {
+    try {
+        const removedComment = await Comment.deleteOne({ _id: req.params.id });
+        res.json(removedComment);
+    }
+    catch(err) {
+        res.json({ message: err });
+    }
+})
+
 
 mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true , useUnifiedTopology: true })
     .then(() => console.log('DB Connected'))
