@@ -20,11 +20,30 @@ class App extends React.Component {
     }
 
     onSubmitHandler = e => {
-        axios.post('http://localhost:9000/comments', [this.state.name, this.state.comment, this.state.emailId])
-            .then(res => console.log(res))
-            .catch(res => console.log(res))
+        // axios.post('http://localhost:9000/comments', this.state)
+        //     .then(res => console.log(res))
+        //     .catch(err => console.log(err))
+        fetch('http://localhost:9000/comments', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: this.state.name,
+                comment: this.state.comment
+            })
+        })
+                .then(res => {
+                    if (res.ok) {
+                        console.log(res);
+                    }
+                    else {
+                        console.log("Failed");
+                    }
+                })
+        .catch(err => console.log(err))
+        }
 
-    }
 
     async componentDidMount() {
         this.callAPI();
@@ -42,8 +61,8 @@ class App extends React.Component {
                     <label htmlFor="name">Name</label>
                     <input name="name" id="name" value={name} onChange={this.onChangeHandler}></input>
                     <br></br><br></br>
-                    <label htmlFor="email">Email</label>
-                    <input name="email" id="email" value={emailId} onChange={this.onChangeHandler}></input>
+                    <label htmlFor="emailId">Email</label>
+                    <input name="emailId" id="emailId" value={emailId} onChange={this.onChangeHandler}></input>
                     <br></br><br></br>
                     <button type="submit">POST</button>
                 </form>
