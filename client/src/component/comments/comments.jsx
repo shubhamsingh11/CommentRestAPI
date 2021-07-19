@@ -25,11 +25,19 @@ const Comments = () => {
     for (let i = 0; i < comments.length; i++) {
         comment.push([comments[i].name , comments[i].comment])
     }
-    console.log(comment);
+    const ren = comment.map((com) => {
+        return (
+                <div>
+                <div>{com[0]}</div>
+                <div>{com[1]}</div>
+                </div>
+    )}
+        )
+    console.log(comment );
     return (
-    
-        <div>null</div>
-    
+        <div>
+            {ren}
+        </div>
     )
 }
 
